@@ -3,11 +3,11 @@ transform.__index = transformr
 
 transform.new = function(top, right, bottom, left, horizontal, vertical)
     local self = setmetatable({
-        -- Anchor points (percent 0..1)
-        top        = top        or error("Anchor: 1st argument required"),
-        right      = right      or error("Anchor: 2nd argument required"),
-        bottom     = bottom     or error("Anchor: 3rd argument required"),
-        left       = left       or error("Anchor: 4th argument required"),
+        -- Transform points (percent 0..1)
+        top        = top        or error("Transform: 1st argument required"),
+        right      = right      or error("Transform: 2nd argument required"),
+        bottom     = bottom     or error("Transform: 3rd argument required"),
+        left       = left       or error("Transform: 4th argument required"),
         -- Offsets (pixels)
         horizontal = horizontal or 0,
         vertical   = vertical   or 0,
@@ -16,17 +16,17 @@ transform.new = function(top, right, bottom, left, horizontal, vertical)
     }, transform)
 
     -- Validation
-    if self.top < 0 then error("Anchor: 1st argument must be greater than 0\n Gave: "..self.top)
-    elseif self.top > 1 then error("Anchor: 1st argument must be less than 1\n Gave: "..self.top) end
+    if self.top < 0 then error("Transform: 1st argument must be greater than 0\n Gave: "..self.top)
+    elseif self.top > 1 then error("Transform: 1st argument must be less than 1\n Gave: "..self.top) end
         
-    if self.right < 0 then error("Anchor: 2nd argument must be greater than 0\n Gave: "..self.right)
-    elseif self.right > 1 then error("Anchor: 2nd argument must be less than 1\n Gave: "..self.right) end
+    if self.right < 0 then error("Transform: 2nd argument must be greater than 0\n Gave: "..self.right)
+    elseif self.right > 1 then error("Transform: 2nd argument must be less than 1\n Gave: "..self.right) end
         
-    if self.bottom < 0 then error("Anchor: 3rd argument must be greater than 0\n Gave: "..self.bottom)
-    elseif self.bottom > 1 then error("Anchor: 3rd argument must be less than 1\n Gave: "..self.bottom) end
+    if self.bottom < 0 then error("Transform: 3rd argument must be greater than 0\n Gave: "..self.bottom)
+    elseif self.bottom > 1 then error("Transform: 3rd argument must be less than 1\n Gave: "..self.bottom) end
     
-    if self.left < 0 then error("Anchor: 4th argument must be greater than 0\n Gave: "..self.left)
-    elseif self.left > 1 then error("Anchor: 4th argument must be less than 1\n Gave: "..self.left) end
+    if self.left < 0 then error("Transform: 4th argument must be greater than 0\n Gave: "..self.left)
+    elseif self.left > 1 then error("Transform: 4th argument must be less than 1\n Gave: "..self.left) end
     
     return self
 end
@@ -41,6 +41,8 @@ transform.calculate = function(self, width, height, offsetX, offsetY)
     -- Offset
     self.x = self.x + offsetX
     self.y = self.y + offsetY
+    
+    return self:get()
 end
 
 transform.get = function(self)
