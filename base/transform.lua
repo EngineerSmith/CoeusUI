@@ -1,7 +1,7 @@
-local anchor = {}
-anchor.__index = anchor
+local transform = {}
+transform.__index = transformr
 
-anchor.new = function(top, right, bottom, left, horizontal, vertical)
+transform.new = function(top, right, bottom, left, horizontal, vertical)
     local self = setmetatable({
         -- Anchor points (percent 0..1)
         top        = top        or error("Anchor: 1st argument required"),
@@ -13,7 +13,7 @@ anchor.new = function(top, right, bottom, left, horizontal, vertical)
         vertical   = vertical   or 0,
         -- Caluated values
         x = 0, y = 0, w = 0, h = 0
-    }, anchor)
+    }, transform)
 
     -- Validation
     if self.top < 0 then error("Anchor: 1st argument must be greater than 0\n Gave: "..self.top)
@@ -31,7 +31,7 @@ anchor.new = function(top, right, bottom, left, horizontal, vertical)
     return self
 end
 
-anchor.calculate = function(self, width, height, offsetX, offsetY)
+transform.calculate = function(self, width, height, offsetX, offsetY)
     -- Position
     self.x = self.right * width + self.horizontal
     self.y = self.top * height + self.vertical
@@ -43,11 +43,11 @@ anchor.calculate = function(self, width, height, offsetX, offsetY)
     self.y = self.y + offsetY
 end
 
-anchor.get = function(self)
+transform.get = function(self)
     return self.x, self.y, self.w, self.h
 end
 
-return setmetatable(anchor, {
+return setmetatable(transform, {
     __call = function(tbl, ...)
         return tbl.new(...)
     end
