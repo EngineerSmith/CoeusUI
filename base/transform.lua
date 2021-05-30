@@ -1,7 +1,7 @@
 local anchor = {}
 anchor.__index = anchor
 
-anchor.new = function(top, right, bottom, left, horizontal, vertical, rotation)
+anchor.new = function(top, right, bottom, left, horizontal, vertical)
     local self = setmetatable({
         -- Anchor points (percent 0..1)
         top        = top        or error("Anchor: 1st argument required"),
@@ -11,8 +11,8 @@ anchor.new = function(top, right, bottom, left, horizontal, vertical, rotation)
         -- Offsets (pixels)
         horizontal = horizontal or 0,
         vertical   = vertical   or 0,
-        -- Rotation (radians)
-        rotation   = rotation   or 0,
+        -- Caluated values
+        x = 0, y = 0, w = 0, h = 0
     }, anchor)
 
     -- Validation
@@ -29,6 +29,22 @@ anchor.new = function(top, right, bottom, left, horizontal, vertical, rotation)
     elseif self.left > 1 then error("Anchor: 4th argument must be less than 1\n Gave: "..self.left) end
     
     return self
+end
+
+anchor.calculate = function(self, width, height, offsetX, offsetY)
+    -- Position
+    self.x = self.right * width + self.horizontal
+    self.y = self.top * height + self.vertical
+    -- Length
+    self.w = (self.left * width) - self.x
+    self.h = (self.bottom * height) - self.y
+    -- Offset
+    self.x = self.x + offsetX
+    self.y = self.y + offsetY
+end
+
+anchor.get = function(self)
+    return self.x, self.y, self.w, self.h
 end
 
 return setmetatable(anchor, {
