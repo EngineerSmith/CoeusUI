@@ -1,11 +1,15 @@
+local path = (...):match("(.-)[^%.]+$") 
+
 local ui = {}
 ui.__index = ui
 
-ui.new = function(anchor)
+local transform = require(path.."transform")
+
+ui.new = function(...)
     local self = setmetatable({
-        anchor   = anchor,
-        children = {count=0},
-        parent   = nil,
+        transform = transform(...),
+        children  = {count=0},
+        parent    = nil,
     }, ui)
     return self
 end
