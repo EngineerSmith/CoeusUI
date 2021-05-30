@@ -1,5 +1,5 @@
 local path = (...):match("(.-)[^%.]+$")
-local coeus = require(path.."...")
+local coeus = require(path.."..")
 
 local shape = setmetatable({}, coeus.ui)
 shape.__index = shape
