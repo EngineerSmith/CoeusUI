@@ -77,16 +77,18 @@ shape.drawElement = function(self)
         lg.setColor(self.color)
         lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
     elseif self.type == "circle" or self.type == "ellipse" then
+        local halfW, halfH = w/2, h/2
+        local centreX, centreY = x+halfW, y+halfH
         if self.lineEnabled then
             local line = self.lineDistance
             lg.setLineWidth(self.lineSize)
             lg.setColor(self.lineColor)
-            lg.ellipse("line", x-line, y-line, w+line*2, h+line*2, self.segments)
+            lg.ellipse("line", centreX-line, centreY-line, halfW+line*2, halfH+line*2, self.segments)
             lg.setLineWidth(1)
         end
         
         lg.setColor(self.color)
-        lg.ellipse(self.mode, x, y, w, h, self.segments)
+        lg.ellipse(self.mode, centreX, centreY, halfW, halfH, self.segments)
     end
 end
 
