@@ -5,8 +5,9 @@ local window = setmetatable({}, ui)
 window.__index = window
 
 window.new = function(width, height)
-    local self = setmetatable(ui(0,0,1,1), window)
+    local self = setmetatable(ui.new(0,0,1,1), window)
     self:setDimensions(width, height)
+    self:draw()
     return self
 end
 

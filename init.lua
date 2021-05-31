@@ -4,7 +4,7 @@ local coeus = {
     ui = require(path.."base.ui"),
     window = require(path.."base.window"),
     
-    shape = require(path.."elements.shape"),
+    shape = require(path.."shape"),
 }
 
 return coeus

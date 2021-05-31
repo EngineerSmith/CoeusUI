@@ -1,11 +1,11 @@
 local path = (...):match("(.-)[^%.]+$")
-local coeus = require(path.."init")
+local ui = require(path.."base.ui")
 
-local shape = setmetatable({}, coeus.ui)
+local shape = setmetatable({}, ui)
 shape.__index = shape
 
 shape.new = function(...)
-    local self = setmetatable(coeus.ui(...), shape)
+    local self = setmetatable(ui.new(...), shape)
     self.color = {1,1,1}
     return self
 end
@@ -21,7 +21,7 @@ local types = {
 }
 
 shape.setType = function(self, type)
-    self.type = types[shapeType] and shapeType or error("Shape must be a supported type. "..tostring(shapeType))
+    self.type = types[type] and type or error("Shape must be a supported type. "..tostring(type))
     return self
 end
 
@@ -31,7 +31,7 @@ local drawModes = {
 }
 
 shape.setDrawMode = function(self, mode)
-   self.mode = drawModes[drawMode] and drawMode or error("Drawmode must be a supported type. "..tostring(drawMode))
+   self.mode = drawModes[mode] and mode or error("Drawmode must be a supported type. "..tostring(mode))
    return self
 end
 
@@ -61,10 +61,11 @@ shape.setOutline = function(self, enabled, distance, size, color)
     return self
 end
 
+local lg = love.graphics
+
 shape.drawElement = function(self)
     local x, y, w, h = self.transform:get()
-    
-    if self.type == "Rectangle" then
+    if self.type == "rectangle" then
         if self.lineEnabled then
             local line = self.lineDistance
             lg.setLineWidth(self.lineSize)
@@ -75,7 +76,7 @@ shape.drawElement = function(self)
         
         lg.setColor(self.color)
         lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
-    elseif self.type == "Circle" or self.type == "Eclipse" then
+    elseif self.type == "circle" or self.type == "eclipse" then
         if self.lineEnabled then
             local line = self.lineDistance
             lg.setLineWidth(self.lineSize)

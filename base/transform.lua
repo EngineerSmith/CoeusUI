@@ -1,5 +1,5 @@
 local transform = {}
-transform.__index = transformr
+transform.__index = transform
 
 transform.new = function(top, right, bottom, left, horizontal, vertical)
     local self = setmetatable({
@@ -49,8 +49,4 @@ transform.get = function(self)
     return self.x, self.y, self.w, self.h
 end
 
-return setmetatable(transform, {
-    __call = function(tbl, ...)
-        return tbl.new(...)
-    end
-})
+return transform

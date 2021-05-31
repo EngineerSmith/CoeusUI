@@ -5,14 +5,13 @@ local ui = {}
 ui.__index = ui
 
 ui.new = function(...)
-    local self = setmetatable({
-        transform = transform(...),
+    return setmetatable({
+        transform = transform.new(...),
         children  = {count=0},
         parent    = nil,
         enabled   = true,
         state     = nil
     }, ui)
-    return self
 end
 
 ui.addChild = function(self, child)
@@ -20,7 +19,7 @@ ui.addChild = function(self, child)
         error("Ui: element given already has a parent") 
     end
     
-    insert(self.children, child)
+    table.insert(self.children, child)
     self.children.count = self.children.count + 1
     child.parent = self
     return self.children.count
@@ -127,8 +126,4 @@ ui.touchreleasedElement = function(self, id, x, y, dx, dy, pressure)
     return false
 end
 
-return setmetatable(ui, {
-    __call = function(tbl, ...)
-        return tbl.new(...)
-    end
-})
+return ui
