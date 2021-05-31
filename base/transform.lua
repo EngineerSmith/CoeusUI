@@ -33,14 +33,14 @@ end
 
 transform.calculate = function(self, width, height, offsetX, offsetY)
     -- Position
-    self.x = self.right * width + self.horizontal
-    self.y = self.top * height + self.vertical
+    self.x = self.right * width
+    self.y = self.top * height
     -- Length
     self.w = (self.left * width) - self.x
     self.h = (self.bottom * height) - self.y
     -- Offset
-    self.x = self.x + offsetX
-    self.y = self.y + offsetY
+    self.x = self.x + self.horizontal + offsetX
+    self.y = self.y + self.vertical + offsetY
     
     return self:get()
 end
