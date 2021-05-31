@@ -17,7 +17,7 @@ end
 local types = {
     ["rectangle"] = 1,
     ["circle"] = 1,
-    ["eclipse"] = 1,
+    ["ellipse"] = 1,
 }
 
 shape.setType = function(self, type)
@@ -76,17 +76,17 @@ shape.drawElement = function(self)
         
         lg.setColor(self.color)
         lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
-    elseif self.type == "circle" or self.type == "eclipse" then
+    elseif self.type == "circle" or self.type == "ellipse" then
         if self.lineEnabled then
             local line = self.lineDistance
             lg.setLineWidth(self.lineSize)
             lg.setColor(self.lineColor)
-            lg.eclipse("line", x-line, y-line, w+line*2, h+line*2, self.segments)
+            lg.ellipse("line", x-line, y-line, w+line*2, h+line*2, self.segments)
             lg.setLineWidth(1)
         end
         
         lg.setColor(self.color)
-        lg.eclipse(self.mode, x, y, w, h, self.segments)
+        lg.ellipse(self.mode, x, y, w, h, self.segments)
     end
 end
 
