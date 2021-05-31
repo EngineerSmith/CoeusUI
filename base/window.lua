@@ -31,6 +31,7 @@ window.setSafeOffset = function(self, x, y)
 end
 
 window.setSafeArea = function(self, x, y, width, height)
+    self:setSafeOffset(x, y)
     self:setDimensions(width, height)
 end
 
