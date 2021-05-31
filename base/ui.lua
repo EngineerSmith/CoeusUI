@@ -3,6 +3,9 @@ local transform = require(path.."transform")
 
 local ui = {}
 ui.__index = ui
+ui.__call = function(self, ...)
+    return self.new(...)
+end
 
 ui.new = function(...)
     return setmetatable({
