@@ -6,7 +6,7 @@ shape.__index = shape
 
 shape.new = function(...)
     local self = setmetatable(ui.new(...), shape)
-    self.color = {1,1,1}
+    self.color = {1,1,1,1}
     return self
 end
 
@@ -21,7 +21,7 @@ local types = {
 }
 
 shape.setType = function(self, type)
-    self.type = types[type] and type or error("Shape must be a supported type. "..tostring(type))
+    self.type = types[type] and type or error("Shape: 2nd argument not supported type\n Gave: "..tostring(type))
     return self
 end
 
@@ -31,15 +31,19 @@ local drawModes = {
 }
 
 shape.setDrawMode = function(self, mode)
-   self.mode = drawModes[mode] and mode or error("Drawmode must be a supported type. "..tostring(mode))
+   self.mode = drawModes[mode] and mode or error("Shape: 2nd argument not supported mode\n Gave: "..tostring(mode))
    return self
 end
 
 shape.setColor = function(self, r, g, b, a)
-    self.color[1] = r or self.color[1] or 1
-    self.color[2] = g or self.color[2] or 1
-    self.color[3] = b or self.color[3] or 1
-    self.color[4] = a or self.color[4] or 1
+    if type(r) == "table" then
+        self.color = r
+    else
+        self.color[1] = r or self.color[1] or 1
+        self.color[2] = g or self.color[2] or 1
+        self.color[3] = b or self.color[3] or 1
+        self.color[4] = a or self.color[4] or 1
+    end
     return self
 end
 

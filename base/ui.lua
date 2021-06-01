@@ -13,6 +13,7 @@ ui.new = function(...)
         children  = {count=0},
         parent    = nil,
         enabled   = true,
+        active    = true,
         state     = nil
     }, ui)
 end
@@ -26,6 +27,10 @@ ui.addChild = function(self, child)
     self.children.count = self.children.count + 1
     child.parent = self
     return self.children.count
+end
+
+ui.setActive = function(self, active)
+    self.active = active
 end
 
 ui.updateTransform = function(self)
