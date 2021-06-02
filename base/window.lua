@@ -6,8 +6,8 @@ window.__index = window
 
 window.new = function(width, height)
     local self = setmetatable(ui.new(0,0,1,1), window)
+    self.autoSafeResize = true
     self:setSafeArea(0, 0, width, height)
-    self:draw()
     return self
 end
 
@@ -35,6 +35,10 @@ window.setSafeArea = function(self, x, y, width, height)
     self:setDimensions(width, height)
 end
 
+window.setAutoSafeResize = function(self, enabled)
+    self.autoSafeResize = enabled
+end
+
 window.update = function(self, dt)
     self:updateTransform()
     self:updateElement(dt)
@@ -48,6 +52,12 @@ window.draw = function(self)
         self:drawElement()
         self:drawChildren()
         love.graphics.pop()
+    end
+end
+
+window.resizeElement = function(self, w, h)
+    if self.autoSafeResize then
+        self:setSafeArea(love.window.getSafeArea())
     end
 end
 

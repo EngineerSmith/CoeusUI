@@ -134,4 +134,17 @@ ui.touchreleasedElement = function(self, id, x, y, dx, dy, pressure)
     return false
 end
 
+ui.resize = function(self, ...)
+    self:resizeElement(...)
+    self:resizeChildren(...)
+end
+
+ui.resizeChildren = function(self, ...)
+    for _, child in ipairs(self.children) do
+        child:resize(...)
+    end
+end
+
+ui.resizeElement = function(self, w, h) end
+
 return ui
