@@ -94,9 +94,15 @@ button.setText = function(self, string)
     return self
 end
 
-button.setFont = function(self, font)
+button.setFont = function(self, ...)
     if not self.text then error("Button: Must call setText before calling setFont") end
-    self.text:setFont(font)
+    self.text:setFont(...)
+    return self
+end
+
+button.setAllignment = function(self, ...)
+    if not self.text then error("Button: Must call setText before calling setAllignment") end
+    self.text:setAllignment(...)
     return self
 end
 
