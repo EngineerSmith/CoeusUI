@@ -5,7 +5,8 @@ local theme = {
     secondaryColor = {.7,.7,.7,1},
     tertiaryColor = {.2,.4,.8,1},
     inactiveColor = {.4,.4,.4,1},
-    fontColor = {.2,.2,.2,1},
+    fontColor = {.4,.4,.4,1},
+    inactiveFontColor = {.2,.2,.2,1},
 }
 theme.__index = theme
 

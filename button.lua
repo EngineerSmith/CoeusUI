@@ -2,6 +2,7 @@ local path = (...):match("(.-)[^%.]+$")
 local ui = require(path.."base.ui")
 local utilities = require(path.."base.utilities")
 local shape = require(path.."shape")
+local text = require(path.."text")
 
 local button = setmetatable({}, ui)
 button.__index = button
@@ -27,10 +28,14 @@ button.setActive = function(self, active)
 end
 
 button.updateActiveChanges = function(self)
-    if self.theme then
+    local t = self.theme
+    if t then
         if self.shape then
-            self.shape:setColor(self.active and self.theme.primaryColor or self.theme.inactiveColor)
+            self.shape:setColor(self.active and t.primaryColor or t.inactiveColor)
             self.shape.lineColor = self.shape.color -- Line cannot have a different colour to shape on a button
+        end
+        if self.text then
+            self.text:setColor(self.active and t.fontColor or t.inactiveFontColor)
         end
     end
 end
@@ -62,25 +67,37 @@ button.setShape = function(self, type)
 end
 
 button.setOutline = function(self, enabled, distance, size) -- Note, color has been removed
-    if not self.shape then error("Shape: Must call setShape before calling setOutline") end
+    if not self.shape then error("Button: Must call setShape before calling setOutline") end
     self.shape:setOutline(enabled, distance, size)
     return self
 end
 
 button.setRoundCorner = function(self, ...)
-    if not self.shape then error("Shape: Must call setShape before calling setRoundCorner") end
+    if not self.shape then error("Button: Must call setShape before calling setRoundCorner") end
     self.shape:setRoundCorner(...)
     return self
 end
 
 button.setSegments = function(self, ...)
-    if not self.shape then error("Shape: Must call setShape before calling setSegments") end
+    if not self.shape then error("Button: Must call setShape before calling setSegments") end
     self.shape:setSegments(...)
     return self
 end
 
-button.setText = function()
-    
+button.setText = function(self, string)
+    if not self.text then
+        self.text = text(0,0,1,1)
+        self:addChild(self.text)
+    end
+    self.text:setString(string)
+    self:updateActiveChanges()
+    return self
+end
+
+button.setFont = function(self, font)
+    if not self.text then error("Button: Must call setText before calling setFont") end
+    self.text:setFont(font)
+    return self
 end
 
 button.setImage = function()
