@@ -106,6 +106,12 @@ button.setAllignment = function(self, ...)
     return self
 end
 
+button.setWrap = function(self, ...)
+    if not self.text then error("Button: Must call setText before calling setWrap") end
+    self.text:setWrap(...)
+    return self
+end
+
 button.setImage = function()
     
 end

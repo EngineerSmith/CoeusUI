@@ -76,15 +76,27 @@ end
 
 text.drawElement = function(self)
     local x, y, w, h = self.transform:get()
+    local tw = self.font:getWidth(self.string)
     local th = self.font:getHeight()
+    love.graphics.setColor(self.color)
     if self.wrap == "wrap" then
         local width, wrappedText = self.font:getWrap(self.string, w)
-        love.graphics.setColor(self.color)
+        if self.allignmentX == "center" then
+            x = x + w/2 - width/2
+        elseif self.allignmentX == "right" then
+            x = x + w - width
+        end
+        
+        if self.allignmentY == "center" then
+            y = y + h/2 - (#wrappedText*th)/2
+        elseif self.allignmentY == "bottom" then
+            y = y + h - #wrappedText*th
+        end
+        
         for i, text in ipairs(wrappedText) do
             love.graphics.print(text, self.font, x, y + th * (i-1))
         end
     elseif self.wrap == "fit" then
-        local tw = self.font:getWidth(self.string)
         local sw = w / tw
         local sh = h / th
         local s = sw < sh and sw or sh
@@ -101,8 +113,21 @@ text.drawElement = function(self)
             y = y + h - th*s
         end
         
-        love.graphics.setColor(self.color)
         love.graphics.print(self.string, self.font, x, y, 0, s)
+    elseif self.wrap == "none" then
+        if self.allignmentX == "center" then
+            x = x + w/2 - tw/2
+        elseif self.allignmentX == "right" then
+            x = x + w - tw
+        end
+        
+        if self.allignmentY == "center" then
+            y = y + h/2 - th/2
+        elseif self.allignmentY == "bottom" then
+            y = y + h - th
+        end
+        
+        love.graphics.print(self.string, self.font, x, y)
     end
 end
 
