@@ -80,21 +80,24 @@ text.drawElement = function(self)
     local th = self.font:getHeight()
     love.graphics.setColor(self.color)
     if self.wrap == "wrap" then
-        local width, wrappedText = self.font:getWrap(self.string, w)
-        if self.allignmentX == "center" then
-            x = x + w/2 - width/2
-        elseif self.allignmentX == "right" then
-            x = x + w - width
-        end
-        
+        local _, wrappedText = self.font:getWrap(self.string, w)
         if self.allignmentY == "center" then
             y = y + h/2 - (#wrappedText*th)/2
         elseif self.allignmentY == "bottom" then
             y = y + h - #wrappedText*th
         end
         
+        local modx = 0
         for i, text in ipairs(wrappedText) do
-            love.graphics.print(text, self.font, x, y + th * (i-1))
+            text = text:gsub('^%s*(.-)%s*$', '%1') -- Remove whitespaces left over from the wrap at start and end
+            if self.allignmentX == "left" then
+                modx = x
+            elseif self.allignmentX == "center" then
+                modx = x + (w/2) - (self.font:getWidth(text)/2)
+            elseif self.allignmentX == "right" then
+                modx = x + w - self.font:getWidth(text)
+            end
+            love.graphics.print(text, self.font, modx, y + th * (i-1))
         end
     elseif self.wrap == "fit" then
         local sw = w / tw
