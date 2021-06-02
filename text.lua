@@ -9,6 +9,7 @@ text.new = function(...)
     self.color = {1,1,1,1}
     self.string = ""
     self.font = love.graphics.getFont()
+    self.wrap = false
     return self
 end
 
@@ -43,16 +44,28 @@ text.setFont = function(self, font)
     return self
 end
 
+text.setWrap = function(self, wrap)
+    self.wrap = wrap
+    return self
+end
+
 text.drawElement = function(self)
     local x, y, w, h = self.transform:get()
-    
-    local sw = w /self.font:getWidth(self.string)
-    local sh = h / self.font:getHeight()
-    local s = sw < sh and sw or sh
-    
-    love.graphics.setColor(self.color)
-    
-    love.graphics.print(self.string, self.font, x, y, 0, s)
+    if self.wrap then
+        local width, wrappedText = self.font:getWrap(self.string, w)
+        love.graphics.setColor(self.color)
+        local height = self.font:getHeight()
+        for i, text in ipairs(wrappedText) do
+            love.graphics.print(text, self.font, x, y + height * (i-1))
+        end
+    else
+        local sw = w /self.font:getWidth(self.string)
+        local sh = h / self.font:getHeight()
+        local s = sw < sh and sw or sh
+        
+        love.graphics.setColor(self.color)
+        love.graphics.print(self.string, self.font, x, y, 0, s)
+    end
 end
 
 return text
