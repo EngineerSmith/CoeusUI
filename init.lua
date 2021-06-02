@@ -11,6 +11,7 @@ local coeus = {
     },
     -- Base Elements
     shape = require(path.."shape"),
+    text = require(path.."text"),
     -- Complex Elements
     button = require(path.."button"),
 }
