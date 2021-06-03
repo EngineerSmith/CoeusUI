@@ -58,6 +58,7 @@ button.setCBReleased = function(self, cb)
     self:setActive(cb ~= nil or self.cbPressed ~= utilities.nilFunc)
 end
 
+-- [[ SHAPE ]]
 button.setShape = function(self, type)
     self.shape = shape(0,0,1,1)
     self.shape:setType(type):setDrawMode("fill")
@@ -84,6 +85,7 @@ button.setSegments = function(self, ...)
     return self
 end
 
+-- [[ TEXT ]]
 button.setText = function(self, string)
     if not self.text then
         self.text = text(0,0,1,1)
@@ -112,10 +114,12 @@ button.setWrap = function(self, ...)
     return self
 end
 
-button.setImage = function()
+-- [[ IMAGE ]]
+button.setImage = function(self, ...)
     
 end
 
+-- [[ EVENT]]
 local findTouch = function(touches, id)
     for k,v in ipairs(touches) do
         if v == id then return k end
