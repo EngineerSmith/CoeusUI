@@ -1,6 +1,6 @@
 local transform = {}
 transform.__index = transform
-
+--                       minX,  minY,maxX, maxY,   offsetX,    offsetY
 transform.new = function(right, top, left, bottom, horizontal, vertical)
     local self = setmetatable({
         -- Transform points (percent 0..1)
@@ -27,6 +27,9 @@ transform.new = function(right, top, left, bottom, horizontal, vertical)
     
     if self.left < 0 then error("Transform: 4th argument must be greater than 0\n Gave: "..self.left)
     elseif self.left > 1 then error("Transform: 4th argument must be less than 1\n Gave: "..self.left) end
+    
+    if self.top > self.bottom then error("Transform: Top cannot be greater than bottom") end
+    if self.right > self.left then error("transform: Right cannot be greater than left") end
     
     return self
 end
