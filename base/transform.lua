@@ -1,7 +1,7 @@
 local transform = {}
 transform.__index = transform
 
-transform.new = function(top, right, bottom, left, horizontal, vertical)
+transform.new = function(right, top, left, bottom, horizontal, vertical)
     local self = setmetatable({
         -- Transform points (percent 0..1)
         top        = top        or error("Transform: 1st argument required"),
