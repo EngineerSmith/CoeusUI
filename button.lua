@@ -3,6 +3,7 @@ local ui = require(path.."base.ui")
 local utilities = require(path.."base.utilities")
 local shape = require(path.."shape")
 local text = require(path.."text")
+local image = require(path.."image")
 
 local button = setmetatable({}, ui)
 button.__index = button
@@ -36,6 +37,10 @@ button.updateActiveChanges = function(self)
         end
         if self.text then
             self.text:setColor(self.active and t.fontColor or t.inactiveFontColor)
+        end
+        
+        if self.image then
+            error("TODO")
         end
     end
 end
@@ -102,21 +107,45 @@ button.setFont = function(self, ...)
     return self
 end
 
-button.setAllignment = function(self, ...)
-    if not self.text then error("Button: Must call setText before calling setAllignment") end
+button.setTextAllignment = function(self, ...)
+    if not self.text then error("Button: Must call setText before calling setTextAllignment") end
     self.text:setAllignment(...)
     return self
 end
 
-button.setWrap = function(self, ...)
-    if not self.text then error("Button: Must call setText before calling setWrap") end
+button.setTextWrap = function(self, ...)
+    if not self.text then error("Button: Must call setText before calling setTextWrap") end
     self.text:setWrap(...)
     return self
 end
 
 -- [[ IMAGE ]]
 button.setImage = function(self, ...)
-    
+    if not self.image then
+        self.image = image(0,0,1,1)
+        self:addChild(self.image)
+    end
+    self.image:setImage(...)
+    self:updateActiveChanges()
+    return self
+end
+
+button.setQuad = function(self, ...)
+    if not self.image then error("Button: Must call setImage before calling setQuad") end
+    self.image:setQuad(...)
+    return self
+end
+
+button.setImageAllignment = function(self, ...)
+    if not self.image then error("Button: Must call setImage before calling setImageAllignment") end
+    self.image:setAllignment(...)
+    return self
+end
+
+button.setImageWrap = function(self, ...)
+    if not self.image then error("Button: Must call setImage before calling setImageWrap") end
+    self.image:setWrap(...)
+    return self
 end
 
 -- [[ EVENT]]
