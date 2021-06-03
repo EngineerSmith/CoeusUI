@@ -19,6 +19,7 @@ local coeus = {
     image = require("image"),
     -- Complex Elements
     button = require("button"),
+    progressBar = require("progressBar"),
 }
 
 return coeus
