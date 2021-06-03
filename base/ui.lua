@@ -11,6 +11,7 @@ ui.new = function(...)
     return setmetatable({
         transform = transform.new(...),
         children  = {count=0},
+        color = {1,1,1,1},
         parent    = nil,
         enabled   = true,
         active    = true,
@@ -27,6 +28,25 @@ ui.addChild = function(self, child)
     self.children.count = self.children.count + 1
     child.parent = self
     return self.children.count
+end
+
+ui.setColor = function(self, r, g, b, a)
+    if type(r) == "table" then
+        if g == "copy" then
+            self.color[1] = r[1] or 1
+            self.color[2] = r[2] or 1
+            self.color[3] = r[3] or 1
+            self.color[4] = r[4] or 1
+        else
+            self.color = r
+        end
+    else
+        self.color[1] = r or self.color[1] or 1
+        self.color[2] = g or self.color[2] or 1
+        self.color[3] = b or self.color[3] or 1
+        self.color[4] = a or self.color[4] or 1
+    end
+    return self
 end
 
 ui.setActive = function(self, active)

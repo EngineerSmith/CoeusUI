@@ -6,12 +6,11 @@ text.__index = text
 
 text.new = function(...)
     local self = setmetatable(ui.new(...), text)
-    self.color = {1,1,1,1}
     self.string = ""
     self.font = love.graphics.getFont()
-    self.wrap = "fit"
     self.allignmentX = "center"
     self.allignmentY = "center"
+    self.wrap = "fit"
     return self
 end
 
@@ -19,18 +18,6 @@ text.setTheme = function(self, theme)
     self.theme = theme
     if theme and theme.factory.text then
         theme.factory.text(self)
-    end
-    return self
-end
-
-text.setColor = function(self, r, g, b, a)
-    if type(r) == "table" then
-        self.color = r
-    else
-        self.color[1] = r or self.color[1] or 1
-        self.color[2] = g or self.color[2] or 1
-        self.color[3] = b or self.color[3] or 1
-        self.color[4] = a or self.color[4] or 1
     end
     return self
 end
@@ -96,6 +83,8 @@ text.drawElement = function(self)
                 modx = x + (w/2) - (self.font:getWidth(text)/2)
             elseif self.allignmentX == "right" then
                 modx = x + w - self.font:getWidth(text)
+            else
+                error("Text: caught undefined behaviour. Have you changed allignments?")
             end
             love.graphics.print(text, self.font, modx, y + th * (i-1))
         end
