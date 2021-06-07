@@ -14,11 +14,11 @@ end
 local shapes = {
     ["rectangle"] = "rectangle",
     ["arc"] = "circle",
-    ["ellipse"] = "ellipse"
 }
 
 progressBar.setShape = function(self, type, color)
-    if type == "circle" then type = "arc" end
+    if type == "circle" then type = "arc"
+    elseif type == "ellipse" then error("ProgressBar: 2nd argument not supported type\n Gave: ellipse") end
     if self.shape then self:removeChild(self.shape) end
     self.shape = shape(0,0,1,1)
     self.shape:setType(type):setDrawMode("fill"):setColor(color)
