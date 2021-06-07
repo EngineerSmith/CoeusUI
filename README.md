@@ -10,7 +10,7 @@ Coeus comes from the Greek Titan of intelligence, and the embodiment of the cele
 local coeus = require("coeus")
 
 local x, y, w, h = love.window.getSafeArea()
-local window = coeus.window(w, h)
+local window = coeus.window(w, h) -- Window is the canvas for all ui elements, a window can be a child to another window
 
 
 local shape = coeus.shape(.5,.5, 1,1)
@@ -46,7 +46,7 @@ text:setWrap("wrap")
 shape:addChild(text)
 
 
-local progress = coeus.progressBar(.05,0.85,.45,.9)
+local progress = coeus.progressBar(.05,.85,.45,.9)
 progress:setShape("rectangle"):setOutline(4, 2):setProgress(0):setDirection("top")
 
 local dir, index = {"top", "right", "bottom", "left"}, 1
@@ -70,17 +70,18 @@ love.update = function(dt)
     window:update(dt) 
 end
 
-love.graphics.setBackgroundColor(0.8,0,0.8)
+love.graphics.setBackgroundColor(.8,0,.8)
 love.draw = function()
     window:draw()
 end
 
 love.resize = function(...)
-    window:resize(...)
+    window:resize(...) -- Window default grabs love.window.getSafeArea, but can be optionally turned off to use given values
 end
 
+-- Only two input events supported right now due to focus towards mobile
 love.touchpressed = function(...)
-    window:touchpressed(...)
+    window:touchpressed(...) -- Input events return true when handled
 end
 
 love.touchreleased = function(...)
