@@ -25,7 +25,7 @@ ui.addChild = function(self, child)
     table.insert(self.children, child)
     self.children.count = self.children.count + 1
     child.parent = self
-    return self.children.count
+    return child, self.children.count
 end
 
 ui.removeChild = function(self, child)
