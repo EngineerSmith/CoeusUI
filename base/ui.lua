@@ -28,10 +28,10 @@ ui.addChild = function(self, child)
     return self.children.count
 end
 
-ui.removeChild = function(self, child) then
+ui.removeChild = function(self, child)
     if child.parent ~= self then error("Ui: element given doesn't belong to this parent") end
     
-    for i, c in ipairs(self.children) then
+    for i, c in ipairs(self.children) do
         if c == child then
             table.remove(self.children, i)
             child.parent = nil
