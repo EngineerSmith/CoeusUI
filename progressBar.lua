@@ -50,6 +50,8 @@ progressBar.setDirection = function(self, direction)
     return self
 end
 
+local halfPi = math.pi / 2
+local twoPi = math.pi * 2
 
 progressBar.setProgress = function(self, progress)
     if not self.shape then error("ProgressBar: Must call setShape before calling setProgress") end
@@ -68,7 +70,8 @@ progressBar.setProgress = function(self, progress)
         t.left   = self.direction == "left"   and   progress or 1
         t.right  = self.direction == "right"  and 1-progress or 0
     elseif self.shape.type == "arc" then
-        
+        local an = twoPi * progress - halfPi
+        self.shape:setAngles(-halfPi, an)
     else
         error("ProgressBar: Undefined behaviour for type: "..tostring(self.shape.type))
     end
