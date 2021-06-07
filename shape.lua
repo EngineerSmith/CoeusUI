@@ -31,6 +31,7 @@ end
 local drawModes = {
     ["fill"] = 1,
     ["line"] = 1,
+    ["none"] = 1,
 }
 
 shape.setDrawMode = function(self, mode)
@@ -84,7 +85,9 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
+        if self.mode ~= "none"then
+            lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
+        end
     elseif self.type == "circle" then
         if self.lineEnabled then
             lg.circle("line", centreX-line, centreY-line, radius+line*2, self.segments)
@@ -92,7 +95,9 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        lg.circle(self.mode, centreX, centreY, radius, self.segments)
+        if self.mode ~= "none"then
+            lg.circle(self.mode, centreX, centreY, radius, self.segments)
+        end
     elseif self.type == "ellipse" then
         if self.lineEnabled then
             lg.ellipse("line", centreX-line, centreY-line, halfW+line*2, halfH+line*2, self.segments)
@@ -100,7 +105,9 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        lg.ellipse(self.mode, centreX, centreY, halfW, halfH, self.segments)
+        if self.mode ~= "none"then
+            lg.ellipse(self.mode, centreX, centreY, halfW, halfH, self.segments)
+        end
     elseif self.type == "arc" then
         if self.lineEnabled then
             lg.arc("line", centreX-line, centreY-line, radius+line*2, self.angle1, self.angle2, self.segments)
@@ -108,7 +115,9 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        lg.arc(self.mode, centreX, centreY, radius, self.angle1, self.angle2, self.segments)
+        if self.mode ~= "none"then
+            lg.arc(self.mode, centreX, centreY, radius, self.angle1, self.angle2, self.segments)
+        end
     else
         error("Shape: Undefined behaviour for "..tostring(self.type) .. " while trying to draw")
     end
