@@ -6,6 +6,9 @@ shape.__index = shape
 
 shape.new = function(...)
     local self = setmetatable(ui.new(...), shape)
+    self.angle1 = 0
+    self.angle2 = 0
+    self.lineSize = 1
     return self
 end
 
@@ -17,6 +20,7 @@ local types = {
     ["rectangle"] = 1,
     ["circle"] = 1,
     ["ellipse"] = 1,
+    ["arc"] = 1
 }
 
 shape.setType = function(self, type)
@@ -52,34 +56,61 @@ shape.setOutline = function(self, enabled, distance, size, color)
     return self
 end
 
+shape.setAngles = function(self, angle1, angle2)
+    if self.type ~= "arc"then error("Shape: given shape isn't of type arc, it cannot have it's angle set") end
+    
+    self.angle1 = angle1 or self.angle1
+    self.angle2 = angle2 or self.angle2
+    
+    return self
+end
+
 local lg = love.graphics
 
 shape.drawElement = function(self)
     local x, y, w, h = self.transform:get()
+    local halfW, halfH = w/2, h/2
+    local centreX, centreY = x+halfW, y+halfH
+    local radius = halfW < halfH and halfW or halfH
+    
+    local line = self.lineDistance
+    lg.setLineWidth(self.lineSize)
+    lg.setColor(self.lineColor or self.color)
+    
     if self.type == "rectangle" then
         if self.lineEnabled then
-            local line = self.lineDistance
-            lg.setLineWidth(self.lineSize)
-            lg.setColor(self.lineColor)
             lg.rectangle("line", x-line, y-line, w+line*2, h+line*2, self.rx, self.ry, self.segments)
-            lg.setLineWidth(1)
         end
+        lg.setLineWidth(1)
         
         lg.setColor(self.color)
         lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
-    elseif self.type == "circle" or self.type == "ellipse" then
-        local halfW, halfH = w/2, h/2
-        local centreX, centreY = x+halfW, y+halfH
+    elseif self.type == "circle" then
         if self.lineEnabled then
-            local line = self.lineDistance
-            lg.setLineWidth(self.lineSize)
-            lg.setColor(self.lineColor)
-            lg.ellipse("line", centreX-line, centreY-line, halfW+line*2, halfH+line*2, self.segments)
-            lg.setLineWidth(1)
+            lg.circle("line", centreX-line, centreY-line, radius+line*2, self.segments)
         end
+        lg.setLineWidth(1)
+        
+        lg.setColor(self.color)
+        lg.circle(self.mode, centreX, centreY, radius, self.segments)
+    elseif self.type == "ellipse" then
+        if self.lineEnabled then
+            lg.ellipse("line", centreX-line, centreY-line, halfW+line*2, halfH+line*2, self.segments)
+        end
+        lg.setLineWidth(1)
         
         lg.setColor(self.color)
         lg.ellipse(self.mode, centreX, centreY, halfW, halfH, self.segments)
+    elseif self.type == "arc" then
+        if self.lineEnabled then
+            lg.arc("line", centreX-line, centreY-line, radius+line*2, self.angle1, self.angle2, self.segments)
+        end
+        lg.setLineWidth(1)
+        
+        lg.setColor(self.color)
+        lg.arc(self.mode, centreX, centreY, radius, self.angle1, self.angle2, self.segments)
+    else
+        error("Shape: Undefined behaviour for "..tostring(self.type) .. " while trying to draw")
     end
 end
 
