@@ -34,6 +34,46 @@ transform.new = function(right, top, left, bottom, horizontal, vertical)
     return self
 end
 
+transform.set = function(self, right, top, left, bottom)
+    return self:setRight(right):setTop(top):setLeft(left):setBottom(bottom)
+end
+
+transform.setTop = function(self, value)
+    if not value then error("Transform: 2nd argument required")
+    elseif value < 0 then error("Transform: 2nd argument must be greater than 0\n Gave: "..tostring(value))
+    elseif value > 1 then error("Transform: 2nd argument must be less than 1\n Gave: "..tostring(value)) end
+    
+    self.top = value
+    return self
+end
+
+transform.setRight = function(self, value)
+    if not value then error("Transform: 2nd argument required")
+    elseif value < 0 then error("Transform: 2nd argument must be greater than 0\n Gave: "..tostring(value))
+    elseif value > 1 then error("Transform: 2nd argument must be less than 1\n Gave: "..tostring(value)) end
+    
+    self.right = value
+    return self
+end
+
+transform.setBottom = function(self, value)
+    if not value then error("Transform: 2nd argument required")
+    elseif value < 0 then error("Transform: 2nd argument must be greater than 0\n Gave: "..tostring(value))
+    elseif value > 1 then error("Transform: 2nd argument must be less than 1\n Gave: "..tostring(value)) end
+        
+    self.bottom = value
+    return self
+end
+
+transform.setLeft = function(self, value)
+    if not value then error("Transform: 2nd argument required")
+    elseif value < 0 then error("Transform: 2nd argument must be greater than 0\n Gave: "..tostring(value))
+    elseif value > 1 then error("Transform: 2nd argument must be less than 1\n Gave: "..tostring(value)) end
+    
+    self.left = value
+    return self
+end
+
 transform.calculate = function(self, width, height, offsetX, offsetY)
     -- Position
     self.x = self.right * width
