@@ -90,7 +90,7 @@ shape.drawElement = function(self)
         end
     elseif self.type == "circle" then
         if self.lineEnabled then
-            lg.circle("line", centreX-line, centreY-line, radius+line*2, self.segments)
+            lg.circle("line", centreX, centreY, radius+line, self.segments)
         end
         lg.setLineWidth(1)
         
@@ -100,7 +100,7 @@ shape.drawElement = function(self)
         end
     elseif self.type == "ellipse" then
         if self.lineEnabled then
-            lg.ellipse("line", centreX-line, centreY-line, halfW+line*2, halfH+line*2, self.segments)
+            lg.ellipse("line", centreX, centreY, halfW+line, halfH+line, self.segments)
         end
         lg.setLineWidth(1)
         
@@ -110,7 +110,7 @@ shape.drawElement = function(self)
         end
     elseif self.type == "arc" then
         if self.lineEnabled then
-            lg.arc("line", centreX-line, centreY-line, radius+line*2, self.angle1, self.angle2, self.segments)
+            lg.arc("line", centreX, centreY, radius+line, self.angle1, self.angle2, self.segments)
         end
         lg.setLineWidth(1)
         
