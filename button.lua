@@ -65,6 +65,7 @@ end
 
 -- [[ SHAPE ]]
 button.setShape = function(self, type)
+    if self.shape then self:removeChild(self.shape) end
     self.shape = shape(0,0,1,1)
     self.shape:setType(type):setDrawMode("fill")
     self:addChild(self.shape)

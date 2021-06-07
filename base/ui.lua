@@ -20,14 +20,27 @@ ui.new = function(...)
 end
 
 ui.addChild = function(self, child)
-    if child.parent then 
-        error("Ui: element given already has a parent") 
-    end
+    if child.parent then error("Ui: element given already has a parent") end
     
     table.insert(self.children, child)
     self.children.count = self.children.count + 1
     child.parent = self
     return self.children.count
+end
+
+ui.removeChild = function(self, child) then
+    if child.parent ~= self then error("Ui: element given doesn't belong to this parent") end
+    
+    for i, c in ipairs(self.children) then
+        if c == child then
+            table.remove(self.children, i)
+            child.parent = nil
+            self.children.count = self.children.count - 1
+            return self.children.count
+        end
+    end
+    
+    error("Ui: Undefined behaviour, given element wasn't found but had its own parent parameter set as this element")
 end
 
 ui.setColor = function(self, r, g, b, a)
