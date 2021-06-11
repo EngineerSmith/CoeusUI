@@ -18,4 +18,8 @@ theme.factory.text = function(text)
     text:setColor(theme.fontColor)
 end
 
+theme.factory.checkbox = function(checkbox)
+    checkbox:setShape("square"):setOutline(true, 0, 13)
+end
+
 return theme
