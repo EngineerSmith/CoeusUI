@@ -32,6 +32,8 @@ scrollview.addChild = function(self, child)
     
     if self.direction == "vertical" then
         child.transform:set(0,(index-1)*self.lengthPercent,1,index*self.lengthPercent)
+    elseif self.direction == "horizontal" then
+        child.transform:set((index-1)*self.lengthPercent,0,index*self.lengthPercent,1)
     end
 end
 
