@@ -20,7 +20,8 @@ local types = {
     ["rectangle"] = 1,
     ["circle"] = 1,
     ["ellipse"] = 1,
-    ["arc"] = 1
+    ["arc"] = 1,
+    ["square"] = 1,
 }
 
 shape.setType = function(self, type)
@@ -85,8 +86,23 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        if self.mode ~= "none"then
+        if self.mode ~= "none" then
             lg.rectangle(self.mode, x, y, w, h, self.rx, self.ry, self.segments)
+        end
+    elseif self.type == "square" then
+        local len = w < h and w or h
+        
+        x = centreX - len/2
+        y = centreY - len/2
+        
+        if self.lineEnabled then
+            lg.rectangle("line", x-line, y-line, len+line, len+line, self.rx, self.ry, self.segments)
+        end
+        lg.setLineWidth(1)
+        
+        lg.setColor(self.color)
+        if self.mode ~= "none" then
+            lg.rectangle(self.mode, x, y, len, len, self.rx, self.ry, self.segments)
         end
     elseif self.type == "circle" then
         if self.lineEnabled then
@@ -95,7 +111,7 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        if self.mode ~= "none"then
+        if self.mode ~= "none" then
             lg.circle(self.mode, centreX, centreY, radius, self.segments)
         end
     elseif self.type == "ellipse" then
@@ -105,7 +121,7 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        if self.mode ~= "none"then
+        if self.mode ~= "none" then
             lg.ellipse(self.mode, centreX, centreY, halfW, halfH, self.segments)
         end
     elseif self.type == "arc" then
@@ -115,7 +131,7 @@ shape.drawElement = function(self)
         lg.setLineWidth(1)
         
         lg.setColor(self.color)
-        if self.mode ~= "none"then
+        if self.mode ~= "none" then
             lg.arc(self.mode, centreX, centreY, radius, self.angle1, self.angle2, self.segments)
         end
     else
