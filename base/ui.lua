@@ -28,6 +28,12 @@ ui.addChild = function(self, child)
     return child, self.children.count
 end
 
+ui.addChildren = function(self, ...)
+    for _, child in ipairs(arg) do
+        self:addChild(child)
+    end
+end
+
 ui.removeChild = function(self, child)
     if child.parent ~= self then error("Ui: element given doesn't belong to this parent") end
     
@@ -41,6 +47,12 @@ ui.removeChild = function(self, child)
     end
     
     error("Ui: Undefined behaviour, given element wasn't found but had its own parent parameter set as this element")
+end
+
+ui.removeChildren = function(self, ...)
+    for _, child in ipairs(arg) do
+        self:removeChild(child)
+    end
 end
 
 ui.setColor = function(self, r, g, b, a)
