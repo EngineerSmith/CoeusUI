@@ -56,11 +56,13 @@ end
 button.setCBPressed = function(self, cb)
     self.cbPressed = cb or utilities.nilFunc
     self:setActive(cb ~= nil or self.cbReleased ~= utilities.nilFunc)
+    return self
 end
 
 button.setCBReleased = function(self, cb) 
     self.cbReleased = cb or utilities.nilFunc
     self:setActive(cb ~= nil or self.cbPressed ~= utilities.nilFunc)
+    return self
 end
 
 -- [[ SHAPE ]]
