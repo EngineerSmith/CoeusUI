@@ -20,6 +20,7 @@ local coeus = {
     -- Complex Elements
     button = require("button"),
     progressBar = require("progressBar"),
+    checkbox = require("checkbox"),
 }
 
 return coeus
